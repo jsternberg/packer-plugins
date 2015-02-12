@@ -1,6 +1,7 @@
 package vagrant
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/mitchellh/multistep"
@@ -19,6 +20,10 @@ func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 		return warnings, errs
 	}
 	b.config = c
+
+	if c.BoxUrl == "" {
+		errs = packer.MultiErrorAppend(errs, fmt.Errorf("box_url is required"))
+	}
 
 	return warnings, nil
 }
