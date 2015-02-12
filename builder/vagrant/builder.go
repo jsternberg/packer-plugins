@@ -56,7 +56,11 @@ func (b *Builder) Run(ui packer.Ui, hook packer.Hook, cache packer.Cache) (packe
 		return nil, rawErr.(error)
 	}
 
-	return nil, nil
+	if artifact, ok := state.GetOk("artifact"); ok {
+		return nil, nil
+	} else {
+		return artifact.(packer.Artifact), nil
+	}
 }
 
 func (b *Builder) Cancel() {
